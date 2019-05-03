@@ -14,6 +14,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  */
 public class App {
     private static final int PORT = 8080;
+    private static String param1;
 
     public static void main(String[] args) throws IOException {
         final ServerSocket server = new ServerSocket(PORT);
@@ -22,7 +23,11 @@ public class App {
             try (Socket socket = server.accept()) {
                 systemOut(new InputStreamReader(socket.getInputStream()));
                 Date today = new Date();
-                String httpResponse = "HTTP/1.1 200 OK\r\n\r\n" + today;
+                StringBuilder builder = new StringBuilder();
+                builder.append("HTTP/1.1 200 OK\r\n\r\n" + today);
+                builder.append(" : ");
+                builder.append(param1);
+                String httpResponse = builder.toString();
                 socket.getOutputStream().write(httpResponse.getBytes(UTF_8));
             }
         }
@@ -38,11 +43,13 @@ public class App {
         }
 
         //Payload
-        StringBuilder payload = new StringBuilder();
-        while(reader.ready()){
-            payload.append((char) reader.read());
+        StringBuilder payloadBuilder = new StringBuilder();
+        while (reader.ready()) {
+            payloadBuilder.append((char) reader.read());
         }
-        System.out.println("Payload data is: "+payload.toString());
+        String payload = payloadBuilder.toString();
+        param1 = payload;
+        System.out.println("Payload data is: " + payload);
     }
 }
 
