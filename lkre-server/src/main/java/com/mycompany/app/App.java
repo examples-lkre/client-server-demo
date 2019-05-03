@@ -30,11 +30,19 @@ public class App {
 
     private static void systemOut(InputStreamReader inputStream) throws IOException {
         BufferedReader reader = new BufferedReader(inputStream);
+        //Header
         String line = reader.readLine();
         while (!line.isEmpty()) {
             System.out.println(line);
             line = reader.readLine();
         }
+
+        //Payload
+        StringBuilder payload = new StringBuilder();
+        while(reader.ready()){
+            payload.append((char) reader.read());
+        }
+        System.out.println("Payload data is: "+payload.toString());
     }
 }
 
