@@ -10,6 +10,7 @@
 
     <modules>
         <module>lkre-server</module>
+        <module>lkre-client</module>
     </modules>
 
     <name>my-app</name>
